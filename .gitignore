@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# ML model weights (auto-downloaded at runtime)
+*.pt
+*.pth
+*.onnx
+
+# Storage — data, parquet cache, uploaded images
+api/storage/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Node
+web/node_modules/
+web/dist/
+web/.vite/
+web/.next/
+
+# Docker volumes / local DB dumps
+*.dump
+*.sql.gz
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+*.xml
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Word doc temp lock file
+~$*.docx
