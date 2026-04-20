@@ -17,8 +17,10 @@ env/
 *.pth
 *.onnx
 
-# Storage — data, parquet cache, uploaded images
-api/storage/
+# Storage — exclude generated data and parquet cache
+api/storage/data/
+# Include CAPTCHA sample images (needed for real YOLO attacks)
+!api/storage/development/
 
 # Environment / secrets
 .env

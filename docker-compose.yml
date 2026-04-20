@@ -27,6 +27,27 @@ services:
       timeout: 5s
       retries: 10
 
+  migrate:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cb_user:cb_password@db:5432/captcha_benchmark
+      SYNC_DATABASE_URL: postgresql://cb_user:cb_password@db:5432/captcha_benchmark
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key-change-in-production-32chars
+      ENVIRONMENT: development
+      STORAGE_BACKEND: local
+      STORAGE_PATH: /app/storage
+    volumes:
+      - ./api:/app
+      - ./api/storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    command: /app/docker-entrypoint.sh
+    restart: "no"
+
   api:
     build:
       context: ./api
@@ -51,6 +72,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
   worker:
@@ -73,6 +96,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     command: python -m app.workers.runner
 
   web:
